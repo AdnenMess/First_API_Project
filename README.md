@@ -1,5 +1,4 @@
-class ValidationError:
-pass# FastAPI
+# FastAPI
 
 
 We have to install `fastapi` and `uvicorn(light web server)`
