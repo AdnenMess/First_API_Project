@@ -163,4 +163,26 @@ async def get_report_async(city: str, country: Optional[str],
 
 ***
 
+8- **Status codes and responses**
+
+```python
+from models.location import Location
+import fastapi
+
+router = fastapi.APIRouter()
+
+@router.get('/api/weather/{city}')
+async def weather(loc: Location =fastapi.Depends()):
+    try:
+        return await openweather_service.get_report(loc.city, loc.country, loc.state, loc.units)
+    except ValidationError as ve:
+        return fastapi.Response(content=ve.error_msg, status_code=ve.status_code)
+    except Exception as x:
+        print(f"Server crashed while prossing request: {x}")
+        return fastapi.Response(content="Error processing your request.", status_code=500)
+
+```
+
+***
+
 
