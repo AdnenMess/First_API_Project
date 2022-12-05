@@ -156,4 +156,7 @@ idea/
 .idea/inspectionProfiles/Project_Default.xml
 .idea/inspectionProfiles/profiles_settings.xml
 
+# api_key
+services/key.json
+
 # End of https://www.toptal.com/developers/gitignore/api/python

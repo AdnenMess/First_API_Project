@@ -1,4 +1,5 @@
-# FastAPI
+class ValidationError:
+pass# FastAPI
 
 
 We have to install `fastapi` and `uvicorn(light web server)`
@@ -106,6 +107,59 @@ order_json = {
     'price': 17.22}
 
 order = Order(**order_json)
+```
+
+***
+
+6- **Build 'real' apps**
+
+```python
+import fastapi
+from api import weather_api
+from views import home
+
+router = fastapi.APIRouter()
+
+# api/weather_api.py
+@router.get('/api/weather')
+def weather():
+    return 'Function of weather-API'
+   
+# views/home.py
+@router.get('/', include_in_schema=False)
+def home():
+    return {'name': 'Micheal'}
+
+# main.py
+app = fastapi.FastAPI()
+app.include_router(weather_api.router)
+app.include_router(home.router)
+```
+
+***
+
+7- **Calling an external API asynchronously**
+
+```python
+import httpx
+from typing import Optional
+
+api_key = "secret_key"
+
+async def get_report_async(city: str, country: Optional[str], 
+                           state: Optional[str], units: str) -> dict :
+    q = f"{city}, {state}, {country}"
+    url = f"https://api.openwathermap.org/data/2.5/weather?q={q}&appid={api_key}&units={units}"
+
+    async with httpx.AsyncClient() as client:
+        r: httpx.Response = await client.get(url)
+        if r.status_code != 200:
+            raise ValidationError(status_code=r.status_code, error_msg=r.text)
+
+        data = r.json()
+        forecast = data['main']
+        return forecast
+
 ```
 
 ***
