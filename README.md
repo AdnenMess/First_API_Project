@@ -16,6 +16,13 @@ pip install pydandic
 
 ***
 
+To start the API, go to app folder :
+```shell
+uvicorn main:app --reload
+```
+
+***
+
 1- **A Minimal API endpoint**
 
 ```python
